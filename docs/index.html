@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paperwork — read the notice, fill the form, draft the letter</title>
+<meta name="description" content="Paste an Indian government notice and see what it asks for, whether you likely qualify, and a draft you can edit — plus form answers learned once and reused. Offline, on device, no key.">
+<meta name="theme-color" content="#101418">
+<style>
+  :root{--bg:#f6f5f2;--panel:#fff;--ink:#14181d;--muted:#5d666f;--line:#d9d6cf;--accent:#1f4a6b;--verify:#7a2f3f}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif}
+  main{max-width:780px;margin:0 auto;padding:48px 20px 64px}
+  h1{font-size:34px;line-height:1.15;letter-spacing:-.02em;margin:0 0 10px}
+  .lede{font-size:18px;color:var(--muted);margin:0 0 26px}
+  .cta{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;padding:12px 20px;border-radius:9px}
+  .status{margin:26px 0;padding:14px 16px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:9px;background:var(--panel);font-size:14px}
+  .status b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px}
+  .warn{margin:0 0 22px;padding:12px 14px;border:1px solid #e6c9d0;border-left:4px solid var(--verify);border-radius:9px;background:#fdf6f7;color:#6d2436;font-size:14px;font-weight:600}
+  h2{font-size:17px;margin:30px 0 8px}
+  ul{padding-left:20px}li{margin:4px 0}
+  code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:13px;background:#eeede9;padding:1px 5px;border-radius:4px}
+  table{border-collapse:collapse;width:100%;font-size:14px;margin-top:8px}
+  th,td{text-align:left;border-bottom:1px solid var(--line);padding:7px 8px;vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<main>
+  <h1>Paperwork</h1>
+  <p class="lede">Read the notice, see what it asks for, check whether you likely qualify, fill the form from answers you
+  learned once, and draft the letter — and nothing is ever submitted for you.</p>
+
+  <a class="cta" href="play/index.html">Open Paperwork</a>
+
+  <p class="warn">Verify every detail against the official source before you submit. This is guidance and a draft, not legal advice.</p>
+
+  <div class="status">
+    <b>Status</b>
+    Built and working offline: a pasted notice yields the documents it asks for, the dates, the amounts and the deadlines — each
+    with the sentence it came from; the eligibility conditions are read out of the same text and put to you as questions; three
+    draft templates (covering letter, RTI request, reply to a notice); form answers learned by label and reused; and a local list of
+    applications with their next action.
+    <br><b>Release</b>: Windows EXE, Android APK and Linux binary, built from this source in CI — <a href="https://github.com/drsamonline/app-paperwork/releases/tag/app-latest">app-latest</a>.
+    <br><b>Not built</b>: OCR, so the text is pasted rather than photographed; and the LLM that would explain a document in its own
+    words — the app quotes yours instead, which is why every line it shows can be found in what you pasted.
+  </div>
+
+  <h2>What it does</h2>
+  <ul>
+    <li>Finds the documents a notice asks for, and shows the sentence each one came from.</li>
+    <li>Finds dates, amounts and deadlines — every date exactly as it appears in your text, so you can find it again.</li>
+    <li>Reads the eligibility conditions out of the document, asks you about those, and says <em>likely eligible</em> or <em>likely not eligible</em> with the condition that decided it.</li>
+    <li>Drafts a covering letter, an RTI request or a reply to a notice, pre-filled with the documents the notice asked for.</li>
+    <li>Learns a form field once (label → answer) and reuses it on any form that asks the same thing.</li>
+    <li>Tracks applications locally: what you submitted, its status, and the next action.</li>
+  </ul>
+
+  <h2>What it will not do</h2>
+  <ul>
+    <li><strong>Submit anything.</strong> It fills fields and drafts letters; you press the button, at the office or on the portal.</li>
+    <li><strong>Guess a form it does not know.</strong> A field with no learned answer stays visibly blank — a wrong answer on a government form is worse than a missing one.</li>
+    <li><strong>Pick between two answers for one label.</strong> Both are offered and you choose.</li>
+    <li><strong>Judge a scheme it cannot read.</strong> The conditions come out of your document; with none found it says so and refuses to guess.</li>
+    <li><strong>Invent an explanation.</strong> There is no model here: every document, date, amount and deadline it reports is quoted from your text.</li>
+    <li><strong>Link out to a portal it cannot reach.</strong> The guidance is bundled; the app does not pretend a dead link is help.</li>
+  </ul>
+
+  <h2>When things go wrong</h2>
+  <table>
+    <tr><th>Case</th><th>What happens</th></tr>
+    <tr><td>Bad input</td><td>An empty paste is refused. A form with no labels is refused. An unreadable document yields no invented summary. A field with no learned answer stays blank rather than being filled with a near-miss.</td></tr>
+    <tr><td>No network</td><td>Nothing changes: the extraction, the templates and the answers are on the device, and there is no portal link to break.</td></tr>
+    <tr><td>Storage full or unavailable</td><td>The answer or draft is not saved and the app says so at once — a half-filled form is never assumed safe.</td></tr>
+    <tr><td>Corrupt saved state</td><td>Reported and offered for export, never written over. A partial set loads with the missing labels named.</td></tr>
+  </table>
+
+  <h2>How to run it</h2>
+  <ul>
+    <li><strong>Here</strong>: <a href="play/index.html">play/index.html</a>, or install it from your browser's menu.</li>
+    <li><strong>Offline file</strong>: open <code>docs/play/index.html</code> straight from disk.</li>
+    <li><strong>Tests</strong>: <code>node tests/self-tests.js</code> — the spec's countable “done means” is asserted there.</li>
+  </ul>
+
+  <footer>
+    PolyForm Noncommercial 1.0.0 · (c) 2026 Dr Sohil Momin ·
+    <a href="https://github.com/drsamonline/app-paperwork">source</a>
+  </footer>
+</main>
+</body>
+</html>

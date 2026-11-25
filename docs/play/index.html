@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paperwork — read the notice, fill the form, draft the letter</title>
+<meta name="description" content="Paste an Indian government notice and see what it asks for, whether you likely qualify, and a draft you can edit — plus form answers learned once and reused. Offline, on device, no key.">
+<meta name="theme-color" content="#101418">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+  :root{--bg:#f6f5f2;--panel:#fff;--ink:#14181d;--muted:#5d666f;--line:#d9d6cf;--accent:#1f4a6b;--accent-ink:#fff;
+        --ok:#1f5f4f;--warn:#8a5a00;--bad:#a02a2a;--verify:#7a2f3f;
+        --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
+        --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;font-size:16px}
+  header.top{border-bottom:1px solid var(--line);background:var(--panel);padding:14px 20px;display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+  header.top h1{font-size:18px;margin:0;letter-spacing:-.01em}
+  header.top p{margin:0;color:var(--muted);font-size:13px}
+  header.top a{margin-left:auto;color:var(--accent);font-size:13px;text-decoration:none;border-bottom:1px solid currentColor}
+  main{max-width:1020px;margin:0 auto;padding:20px}
+  .tabs{display:flex;gap:6px;margin-bottom:16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tab{font:inherit;font-size:14px;padding:9px 14px;border:1px solid transparent;border-bottom:none;background:none;color:var(--muted);cursor:pointer;border-radius:8px 8px 0 0}
+  .tab[aria-selected="true"]{background:var(--panel);border-color:var(--line);color:var(--ink);font-weight:600;margin-bottom:-1px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px}
+  .card h2{font-size:15px;margin:0 0 6px}
+  .card p.claim{margin:0 0 8px;color:var(--muted);font-size:13px}
+  label.fld{display:block;font-size:12px;color:var(--muted);margin:10px 0 4px;text-transform:uppercase;letter-spacing:.06em}
+  input[type=text],select,textarea{font:inherit;font-size:14px;width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:7px;background:#fff;color:inherit}
+  textarea{font-family:var(--mono);font-size:13px;line-height:1.6;resize:vertical}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:760px){.row{grid-template-columns:1fr}}
+  button{font:inherit;font-size:13px;padding:8px 13px;border-radius:7px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer}
+  button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+  button.small{padding:3px 8px;font-size:12px}
+  .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
+  .bar .grow{flex:1}
+  .hint{color:var(--muted);font-size:12px}
+  .status{margin:10px 0;padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:var(--panel);font-size:13px;display:none}
+  .status.show{display:block}
+  .status.bad{border-color:#e3b7b7;background:#fdf3f3;color:#7d1f1f}
+  .status.ok{border-color:#b7d8cd;background:#f2f9f6;color:#14503f}
+  .status.warn{border-color:#e8d5ae;background:#fdf8ee;color:#6b4700}
+  .verify{margin:0 0 12px;padding:9px 12px;border:1px solid #e6c9d0;border-left:4px solid var(--verify);border-radius:8px;background:#fdf6f7;color:#6d2436;font-size:12px;font-weight:600}
+  .list{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:8px}
+  .list li{border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#fbfaf8;font-size:14px}
+  .list .q{display:block;font-size:12px;color:var(--muted);font-family:var(--mono);margin-top:4px}
+  .tag{font-size:10px;text-transform:uppercase;letter-spacing:.07em;padding:2px 7px;border-radius:999px;background:#ecebe6;color:var(--muted);margin-right:6px}
+  .tag.ok{background:#e4f1ea;color:var(--ok)}
+  .tag.warn{background:#fdf3e3;color:var(--warn)}
+  .tag.bad{background:#fbe9e9;color:var(--bad)}
+  table{border-collapse:collapse;width:100%;font-size:13px;margin-top:8px}
+  th,td{text-align:left;border-bottom:1px solid var(--line);padding:6px 8px;vertical-align:top}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  td.blank{color:var(--warn);font-style:italic}
+  pre.out{font-family:var(--mono);font-size:13px;white-space:pre-wrap;background:#fbfaf8;border:1px solid var(--line);border-radius:7px;padding:12px;margin:0;max-height:420px;overflow:auto}
+  .empty{text-align:center;color:var(--muted);padding:20px 14px;font-size:14px}
+  footer{max-width:1020px;margin:0 auto;padding:22px 20px 40px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}
+  [hidden]{display:none !important}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Paperwork</h1>
+  <p>Read the notice, see what it asks for, fill the form, draft the letter — and nothing is ever submitted for you.</p>
+  <a href="../index.html">about</a>
+</header>
+
+<main>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="tab-explain" aria-selected="true" aria-controls="panel-explain">Explain</button>
+    <button class="tab" role="tab" id="tab-draft" aria-selected="false" aria-controls="panel-draft">Draft</button>
+    <button class="tab" role="tab" id="tab-forms" aria-selected="false" aria-controls="panel-forms">Forms &amp; tracking</button>
+  </div>
+
+  <div class="status" id="status" role="status" aria-live="polite"></div>
+
+  <!-- ------------------------------------------------------ explain -->
+  <div id="panel-explain" role="tabpanel" aria-labelledby="tab-explain">
+    <p class="verify" id="verify-explain"></p>
+    <section class="card">
+      <h2>The document</h2>
+      <p class="claim">Paste the text of the notice, circular, form or letter. There is no OCR here: photograph-to-text needs a model
+        that does not exist in this app, so the text is pasted. Everything the app reports is found in your text — nothing is interpreted.</p>
+      <textarea id="notice" rows="8" placeholder="Paste the notice or form text here."></textarea>
+      <div class="bar">
+        <button class="primary" type="button" id="readBtn">Read it</button>
+        <button type="button" id="example">Load example notice</button>
+        <button type="button" id="exportExplain">Export what it asks for (.md)</button>
+        <span class="grow"></span>
+        <span class="hint" id="readNote"></span>
+      </div>
+    </section>
+
+    <section class="card" id="explainCard" hidden>
+      <h2>What it asks for</h2>
+      <p class="claim" id="explainSays"></p>
+      <div class="row">
+        <div>
+          <h2 style="margin-top:6px">Documents</h2>
+          <ul class="list" id="docList"></ul>
+        </div>
+        <div>
+          <h2 style="margin-top:6px">Dates, amounts, deadlines</h2>
+          <ul class="list" id="dateList"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="eligCard" hidden>
+      <h2>Do you likely qualify?</h2>
+      <p class="claim">The conditions below were read <em>out of your document</em>. This app does not know any scheme's rules and does
+        not pretend to: answer what it found, and it will say likely eligible or likely not — with the condition that decided it.</p>
+      <div id="condQuestions"></div>
+      <div class="bar">
+        <button class="primary" type="button" id="checkElig">Check</button>
+        <span class="grow"></span>
+        <span class="hint" id="eligNote"></span>
+      </div>
+      <div class="card" id="verdictCard" hidden style="margin-top:12px;background:#fbfaf8">
+        <h2>The verdict</h2>
+        <p id="verdictSays"></p>
+        <ul class="list" id="verdictList"></ul>
+      </div>
+    </section>
+  </div>
+
+  <!-- -------------------------------------------------------- draft -->
+  <div id="panel-draft" role="tabpanel" aria-labelledby="tab-draft" hidden>
+    <p class="verify" id="verify-draft"></p>
+    <section class="card">
+      <h2>The draft</h2>
+      <p class="claim">A draft, not a filing. Edit it, check every detail against the official source, and submit it yourself.</p>
+      <div class="row">
+        <div>
+          <label class="fld" for="template">What are you writing?</label>
+          <select id="template"></select>
+        </div>
+        <div>
+          <label class="fld" for="authority">To whom (the office or authority)</label>
+          <input type="text" id="authority" placeholder="e.g. The Tehsildar, Haveli">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label class="fld" for="subject">The subject, in one line</label>
+          <input type="text" id="subject" placeholder="e.g. Application for an income certificate">
+        </div>
+        <div>
+          <label class="fld" for="name">Your name</label>
+          <input type="text" id="name" placeholder="Your name">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label class="fld" for="reference">Reference or notice number (optional)</label>
+          <input type="text" id="reference" placeholder="e.g. TSL/2026/4471">
+        </div>
+        <div>
+          <label class="fld" for="contact">Phone and address for the reply</label>
+          <input type="text" id="contact" placeholder="e.g. 98xxxxxx, Kothrud, Pune">
+        </div>
+      </div>
+      <div class="bar">
+        <button class="primary" type="button" id="makeDraft">Write the draft</button>
+        <button type="button" id="exportDraft" hidden>Export the draft (.txt)</button>
+        <span class="grow"></span>
+        <span class="hint" id="draftNote"></span>
+      </div>
+    </section>
+    <section class="card" id="draftCard" hidden>
+      <h2>The text <small style="color:var(--muted);font-weight:400">— editable before you send it</small></h2>
+      <textarea id="draftText" rows="16"></textarea>
+      <div class="hint" id="draftSays" style="margin-top:8px"></div>
+    </section>
+  </div>
+
+  <!-- -------------------------------------------------------- forms -->
+  <div id="panel-forms" role="tabpanel" aria-labelledby="tab-forms" hidden>
+    <p class="verify" id="verify-forms"></p>
+    <section class="card">
+      <h2>Learn an answer</h2>
+      <p class="claim">The app learns the field, not the form: a label and a value. On any form that asks the same thing, the same answer
+        fills it. A field with no learned answer stays visibly blank — a wrong answer on a form is worse than a missing one.</p>
+      <div class="row">
+        <div>
+          <label class="fld" for="learnLabel">Field label</label>
+          <input type="text" id="learnLabel" placeholder="e.g. Full name as per Aadhaar">
+        </div>
+        <div>
+          <label class="fld" for="learnValue">Your answer</label>
+          <input type="text" id="learnValue" placeholder="e.g. Sohil Momin">
+        </div>
+      </div>
+      <div class="bar">
+        <button class="primary" type="button" id="learnBtn">Learn it</button>
+        <span class="grow"></span>
+        <span class="hint" id="learnNote"></span>
+      </div>
+      <ul class="list" id="answersList"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Fill a form</h2>
+      <p class="claim">Paste the form's labels, one per line. Nothing is submitted: this app fills the fields and stops.</p>
+      <textarea id="labels" rows="5" placeholder="Full name as per Aadhaar&#10;Date of birth&#10;Annual family income"></textarea>
+      <div class="bar">
+        <button class="primary" type="button" id="fillBtn">Fill it</button>
+        <button type="button" id="exportFill" hidden>Export the filled form (.txt)</button>
+        <span class="grow"></span>
+        <span class="hint" id="fillNote"></span>
+      </div>
+      <table id="fillTable" hidden><thead><tr><th>Field</th><th>Answer</th></tr></thead><tbody></tbody></table>
+    </section>
+
+    <section class="card">
+      <h2>Track an application</h2>
+      <p class="claim">A local list with the status and the next action. Nothing leaves this device.</p>
+      <div class="row">
+        <div>
+          <label class="fld" for="appTitle">What did you submit?</label>
+          <input type="text" id="appTitle" placeholder="e.g. Income certificate application">
+        </div>
+        <div>
+          <label class="fld" for="appNext">What is the next action?</label>
+          <input type="text" id="appNext" placeholder="e.g. collect the certificate after 12/12/2026">
+        </div>
+      </div>
+      <div class="bar">
+        <button class="primary" type="button" id="trackBtn">Track it</button>
+        <span class="grow"></span>
+        <span class="hint" id="trackNote"></span>
+      </div>
+      <ul class="list" id="appList"></ul>
+    </section>
+  </div>
+</main>
+
+<footer>
+  Paperwork reads, drafts and fills — it never submits, and it never decides anything for you. Every screen carries the same
+  warning for a reason.
+  <br>PolyForm Noncommercial 1.0.0 · (c) 2026 Dr Sohil Momin ·
+  <a href="https://github.com/drsamonline/app-paperwork/releases/tag/app-latest">Windows, Android and Linux builds</a>
+</footer>
+
+<script src="web-kit.js"></script>
+<script src="export-kit.js"></script>
+<script src="paperwork-core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

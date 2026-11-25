@@ -1,0 +1,15 @@
+{
+  "name": "app-paperwork",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Read an Indian government notice, see what it asks for, check eligibility, fill the form, and draft the letter. Offline, on device.",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "author": "Dr Sohil Momin",
+  "scripts": {
+    "test": "node tests/self-tests.js && node tests/page-smoke.js && node tests/ui-tests.js",
+    "test:engine": "node tests/self-tests.js",
+    "test:shape": "node tests/page-smoke.js",
+    "test:ui": "node tests/ui-tests.js"
+  },
+  "devDependencies": { "jsdom": "^24.0.0" }
+}

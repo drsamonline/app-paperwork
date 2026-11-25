@@ -1,0 +1,31 @@
+NOTICE
+======
+
+Paperwork — https://github.com/drsamonline/app-paperwork
+Copyright 2026 Dr Sohil Momin. Licensed under PolyForm Noncommercial 1.0.0 (see LICENSE).
+
+Third-party components
+----------------------
+
+None. Paperwork has no third-party dependency and no CDN.
+
+Vendored from this project's own kits (same licence, same author), copied verbatim on
+25/11/2026:
+
+- web-kit 0.1.0 — docs/play/web-kit.js — the offline shell, storage helpers and PWA registration
+- export-kit 1.0.0 — docs/play/export-kit.js — Blob download, used to write the drafts and the filled form
+
+Neither kit is modified. Neither makes a network request.
+
+On advice, sources and models
+-----------------------------
+
+This app is guidance and a draft, not legal advice, and every screen says so. It contains no
+language model: the documents, dates, amounts and deadlines it reports are extracted from the text
+the person pasted, and each one is shown with the sentence it came from so it can be checked. The
+eligibility conditions are read out of that same text — the app has no scheme rules of its own and
+will not judge eligibility when it can find no condition to judge.
+
+The three draft templates (covering letter, RTI request, reply to a notice) are ordinary letter
+shapes. Fees, formats, officer titles and statutory details differ between authorities; the drafts
+say so and point the person at the official source rather than asserting them.
