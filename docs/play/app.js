@@ -200,7 +200,9 @@
     renderAnswers();
     var saved = persist();
     els.learnNote.textContent = out.says;
-    setStatus(saved ? (out.duplicate ? "warn" : "ok") : "bad", out.says);
+    /* the class was right and the WORDS were wrong: a failed save still said "Learned ...". The warning
+     * persist() already printed is the message; a cheerful line only when the write worked. */
+    if (saved) setStatus(out.duplicate ? "warn" : "ok", out.says);
   }
 
   function renderAnswers() {
@@ -244,9 +246,9 @@
     els.appTitle.value = "";
     els.appNext.value = "";
     renderApps();
-    persist();
+    var saved = persist();
     els.trackNote.textContent = out.says;
-    setStatus("ok", out.says);
+    if (saved) setStatus("ok", out.says);
   }
 
   function renderApps() {
