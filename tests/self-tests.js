@@ -210,7 +210,10 @@ section("failure case — no network");
   ok("no XHR/WebSocket/beacon in " + f, !/XMLHttpRequest|WebSocket|sendBeacon|EventSource/.test(src));
 });
 ok("the page forbids connections in its CSP", /connect-src 'none'/.test(page));
-ok("the page does not link out to a portal", !/https?:\/\/(?!github\.com\/drsamonline)/.test(page));
+/* the page may link to this project (source, releases, sponsor) and to nothing else: a link to a government
+ * portal would be the app sending someone to a site it cannot see or vouch for */
+ok("the page does not link out to a portal",
+  !/https?:\/\/(?!(github\.com\/drsamonline|drsamonline\.github\.io\/app-paperwork))/.test(page));
 
 section("shape — every script the page loads exists beside it");
 var srcs = (page.match(/<script[^>]+src="([^"]+)"/g) || []).map(function (t) { return t.replace(/.*src="([^"]+)"/, "$1"); });
