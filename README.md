@@ -12,6 +12,7 @@ you learned once, and draft the letter — **and nothing is ever submitted for y
 - **Plan row:** #10 of 37 in `drsamonline/forge` → `QUEUE/PLAN.json`
 - **Specs absorbed:** `app-bureaucrat` (lead), `app-form-filler`
 - **Licence:** PolyForm Noncommercial 1.0.0
+- **Sponsor:** [github.com/sponsors/drsamonline](https://github.com/sponsors/drsamonline) — free, offline, no account
 
 ## Status
 
